@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ username }}</h1>
+
+    <!-- Add the link to the edit templates page -->
+    <h3><a href="{{ url_for('edit_templates') }}">Edit Templates</a></h3>
+
+    <h3>Upload a File:</h3>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="folder">Select a Folder:</label>
+        <select id="folder1" name="folder">
+            {% for folder in folders %}
+            <option value="{{ folder }}">{{ folder }}</option>
+            {% endfor %}
+        </select>
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+    <h3>Download a File:</h3>
+    <form action="/download" method="post">
+        <label for="folder">Select a Folder:</label>
+        <select id="folder" name="folder">
+            {% for folder in folders %}
+            <option value="{{ folder }}">{{ folder }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="file" placeholder="Enter file name">
+        <input type="submit" value="Download">
+    </form>
+
+    <br>
+    <a href="/logout">Logout</a>
+</body>
+</html>

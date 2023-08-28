@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Sales Data</title>
+</head>
+<body>
+    <h1>Upload Sales Data</h1>
+    {% if error_msg %}
+        <p style="color: red;">{{ error_msg }}</p>
+    {% endif %}
+    {% if success_msg %}
+        <p style="color: green;">{{ success_msg }}</p>
+    {% endif %}
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Select a sales data file to upload:</label>
+        <input type="file" id="file" name="file"><br><br>
+        <input type="submit" value="Upload">
+    </form>
+    <br>
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>

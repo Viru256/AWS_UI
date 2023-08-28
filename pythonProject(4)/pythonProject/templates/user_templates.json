@@ -1,0 +1,11 @@
+{
+    "anotheruser@example.com": {
+        "section1": [
+            {"name": "Field1", "type": "text"},
+            {"name": "Field2", "type": "number"}
+        ],
+        "section2": [
+            {"name": "Field3", "type": "text"}
+        ]
+    }
+}

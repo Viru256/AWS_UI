@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Templates</title>
+    <script>
+        function addColumn(section) {
+            var container = document.getElementById(section + "_container");
+            var inputName = document.createElement("input");
+            var inputType = document.createElement("select");
+            var deleteButton = document.createElement("button");
+            inputName.type = "text";
+            inputName.name = section + "_columns[]";
+            deleteButton.innerText = "Delete";
+            deleteButton.type = "button";
+            deleteButton.onclick = function () {
+                container.removeChild(inputName);
+                container.removeChild(inputType);
+                container.removeChild(deleteButton);
+                container.appendChild(document.createElement("br"));
+            };
+            container.appendChild(inputName);
+
+            // Create the data type dropdown
+            inputType.name = section + "_types[]";
+            var dataTypes = ["string", "object", "float", "int", "decimal"];
+            for (var i = 0; i < dataTypes.length; i++) {
+                var option = document.createElement("option");
+                option.value = dataTypes[i];
+                option.text = dataTypes[i];
+                inputType.appendChild(option);
+            }
+            container.appendChild(inputType);
+            container.appendChild(deleteButton);
+            container.appendChild(document.createElement("br"));
+        }
+
+        function setSelectedOption(section, index, selectedType) {
+            var selectElement = document.getElementsByName(section + "_types[]")[index];
+            for (var i = 0; i < selectElement.options.length; i++) {
+                if (selectElement.options[i].value === selectedType) {
+                    selectElement.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Edit Templates</h1>
+    <form action="/edit_templates" method="post">
+        {% for folder, template in templates.items() %}
+        <h3>{{ folder }}:</h3>
+        {% for column in template %}
+        <input type="text" name="{{ folder }}_columns[]" value="{{ column['Column'] }}">
+        <select name="{{ folder }}_types[]">
+            <option value="string">string</option>
+            <option value="object">object</option>
+            <option value="float">float</option>
+            <option value="int">int</option>
+            <option value="decimal">decimal</option>
+        </select>
+        <script>
+            setSelectedOption('{{ folder }}', {{ loop.index0 }}, '{{ column['type'] }}');
+        </script>
+        <input type="checkbox" name="delete_{{ folder }}_columns[]" value="{{ column['Column'] }}"> Delete
+        <br>
+        {% endfor %}
+        <div id="{{ folder }}_container"></div>
+        <button type="button" onclick="addColumn('{{ folder }}')">Add Column</button>
+        <br><br>
+        {% endfor %}
+        <input type="submit" value="Update Templates">
+    </form>
+
+    <br>
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>
